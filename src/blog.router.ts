@@ -73,6 +73,30 @@ export async function updateBlog(
   }
 }
 
+export async function deleteBlog(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  try {
+    const _id = req.params.blogId;
+    if (!_id)
+      return res
+        .status(400)
+        .json({ message: "Blog id must be provided", status: 400 });
+
+    Blog.findByIdAndDelete(_id);
+
+    res.status(200).json({
+      message: "Blog successfully deleted",
+      status: 200,
+    });
+  } catch (err: any) {
+    console.error(err);
+    next(err);
+  }
+}
+
 export async function getAllBlogs(
   req: Request,
   res: Response,
