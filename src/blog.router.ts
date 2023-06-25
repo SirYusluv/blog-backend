@@ -97,12 +97,20 @@ export async function deleteBlog(
   }
 }
 
-export async function getAllBlogs(
+export async function getBlogs(
   req: Request,
   res: Response,
   next: NextFunction
 ) {
   try {
+    const _id = req.query.blogId;
+    const blog = _id ? [await Blog.findById(_id)] : await Blog.find();
+
+    res.status(200).json({
+      message: "",
+      status: 200,
+      blog,
+    });
   } catch (err: any) {
     console.error(err);
     next(err);

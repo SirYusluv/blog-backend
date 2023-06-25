@@ -10,7 +10,7 @@ import multer from "multer";
 import mongoose from "mongoose";
 import { v4 as uuid } from "uuid";
 import * as dotenv from "dotenv";
-import { createBlog, deleteBlog, updateBlog } from "./blog.router";
+import { createBlog, deleteBlog, getBlogs, updateBlog } from "./blog.router";
 
 const PUBLIC_DIR = path.join(__dirname, "..", "public");
 const ALLOWED_IMAGES = ["image/jpeg", "image/png"];
@@ -55,7 +55,9 @@ app.post("/blog", upload.single("file"), createBlog);
 // update blog
 app.patch("/update/:blogId", updateBlog);
 // delete blog
-app.delete("/delete/:blogId", deleteBlog);
+app.delete("/blog/:blogId", deleteBlog);
+// get single or all blogs
+app.get("/blog", getBlogs);
 
 const errorHandler: ErrorRequestHandler = function (
   err: any,
