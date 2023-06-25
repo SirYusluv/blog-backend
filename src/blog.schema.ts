@@ -17,4 +17,4 @@ const BlogSchema = new Schema<IBlog>({
   dateCreated: { type: Date, default: Date.now },
 });
 
-export const User = model<IBlog>("User", BlogSchema);
+export const Blog = model<IBlog>("User", BlogSchema);

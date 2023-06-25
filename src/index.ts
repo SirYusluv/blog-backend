@@ -10,6 +10,7 @@ import multer from "multer";
 import mongoose from "mongoose";
 import { v4 as uuid } from "uuid";
 import * as dotenv from "dotenv";
+import { createBlog, updateBlog } from "./blog.router";
 
 const PUBLIC_DIR = path.join(__dirname, "..", "public");
 const ALLOWED_IMAGES = ["image/jpeg", "image/png"];
@@ -43,10 +44,16 @@ const imageFilter = function (
 const upload = multer({
   storage,
   fileFilter: imageFilter,
+  limits: { fileSize: FILE_SIZE_LIMIT },
 });
 
 app.use(express.json());
 app.use(express.static(PUBLIC_DIR));
+
+// create blog
+app.post("/blog", upload.single("file"), createBlog);
+// update blog
+app.patch("/update/:blogId", updateBlog);
 
 const errorHandler: ErrorRequestHandler = function (
   err: any,
