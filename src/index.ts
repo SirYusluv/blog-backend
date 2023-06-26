@@ -10,7 +10,9 @@ import multer from "multer";
 import mongoose from "mongoose";
 import { v4 as uuid } from "uuid";
 import * as dotenv from "dotenv";
-import { createBlog, deleteBlog, getBlogs, updateBlog } from "./blog.router";
+import swaggerUI from "swagger-ui-express";
+import swaggerJSDoc from "swagger-jsdoc";
+import { BlogRouter } from "./blog.router";
 
 const PUBLIC_DIR = path.join(__dirname, "..", "public");
 const ALLOWED_IMAGES = ["image/jpeg", "image/png"];
@@ -41,7 +43,7 @@ const imageFilter = function (
   else cb(new Error("provided file not supported"));
 };
 
-const upload = multer({
+export const upload = multer({
   storage,
   fileFilter: imageFilter,
   limits: { fileSize: FILE_SIZE_LIMIT },
@@ -50,14 +52,8 @@ const upload = multer({
 app.use(express.json());
 app.use(express.static(PUBLIC_DIR));
 
-// create blog
-app.post("/blog", upload.single("file"), createBlog);
-// update blog
-app.patch("/update/:blogId", updateBlog);
-// delete blog
-app.delete("/blog/:blogId", deleteBlog);
-// get single or all blogs
-app.get("/blog", getBlogs);
+app.use(upload.single("file")); // to post images
+app.use(BlogRouter);
 
 const errorHandler: ErrorRequestHandler = function (
   err: any,
@@ -75,6 +71,31 @@ const errorHandler: ErrorRequestHandler = function (
   });
 };
 app.use(errorHandler);
+
+// documentation setup
+const swaggerOpt: swaggerJSDoc.Options = {
+  definition: {
+    openapi: "3.1.0",
+    info: {
+      title: "Blog API",
+      version: "1.0.0",
+      description:
+        "A simple Blog API that can create, fetch, update and delete blog",
+      license: {
+        name: "MIT",
+        url: "https://spdx.org/licenses/MIT.html",
+      },
+      contact: {
+        name: "Olanrewaju Yusuf",
+        url: "https://siryusluv.netlify.app",
+        email: "olanrewajuyusuf379@gmail.com",
+      },
+    },
+  },
+  apis: ["./**/*.router.ts"],
+};
+const specs = swaggerJSDoc(swaggerOpt);
+app.use("/api", swaggerUI.serve, swaggerUI.setup(specs, { explorer: true }));
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, async function () {
