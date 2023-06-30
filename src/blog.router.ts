@@ -109,40 +109,17 @@ BlogRouter.post("/blog", createBlog);
 
 /**
  * @swagger
- * /blog/{blogId}:
- *  patch:
- *      summary: Create new blog post
- *      tags:
- *          - /blog
- *      requestBody:
- *          required: true
- *          content:
- *              application/json:
- *                  schema:
- *                      $ref: '#/components/schemas/Blog'
- *      responses:
- *          201:
- *              description: The blog was created
- *              content:
- *                  application/json:
- *                      schema:
- *                          type: object
- *                          properties:
- *                              message:
- *                                  type: string
- *                                  description: A readable message on operation status
- *                              status:
- *                                  type: number
- *                                  description: An HTTP status on operation
- *                              blog:
- *                                  $ref: '#/components/schemas/Blog'
- *          400:
- *              description: An error occurred
- *              content:
- *                  application/json:
- *                      schema:
- *                          $ref: '#/components/schemas/MustHaveInResponse'
- *
+ * paths:
+ *  /blog/{blogId}:
+ *      patch:
+ *          summary: Update title and detail of a blog post
+ *          parameters:
+ *              - in: path
+ *                name: blogId
+ *                schema:
+ *                    type: string
+ *                    required: true
+ *                    description: The id (_id) of the blog to update
  */
 // update blog
 BlogRouter.patch("/blog/:blogId", updateBlog);
