@@ -29,7 +29,8 @@ export const BlogRouter = Router();
  *          description: The date the blog post was created
  *        imageURL:
  *          type: string
- *          description: The url for the blog post image (sent  as "file" in reqest body)
+ *          format: binary
+ *          description: The blog image (sent  as "file" in reqest body)
  *      example:
  *        id: 243479654344567873244565
  *        title: My interesting Blog post
@@ -76,7 +77,7 @@ export const BlogRouter = Router();
  *      requestBody:
  *          required: true
  *          content:
- *              application/json:
+ *              multipart/form-data:
  *                  schema:
  *                      $ref: '#/components/schemas/Blog'
  *      responses:
@@ -105,6 +106,44 @@ export const BlogRouter = Router();
  */
 // create blog
 BlogRouter.post("/blog", createBlog);
+
+/**
+ * @swagger
+ * /blog/{blogId}:
+ *  patch:
+ *      summary: Create new blog post
+ *      tags:
+ *          - /blog
+ *      requestBody:
+ *          required: true
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      $ref: '#/components/schemas/Blog'
+ *      responses:
+ *          201:
+ *              description: The blog was created
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          properties:
+ *                              message:
+ *                                  type: string
+ *                                  description: A readable message on operation status
+ *                              status:
+ *                                  type: number
+ *                                  description: An HTTP status on operation
+ *                              blog:
+ *                                  $ref: '#/components/schemas/Blog'
+ *          400:
+ *              description: An error occurred
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          $ref: '#/components/schemas/MustHaveInResponse'
+ *
+ */
 // update blog
 BlogRouter.patch("/blog/:blogId", updateBlog);
 // delete blog
