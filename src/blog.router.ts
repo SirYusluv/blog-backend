@@ -190,5 +190,39 @@ BlogRouter.patch("/blog/:blogId", updateBlog);
  */
 // delete blog
 BlogRouter.delete("/blog/:blogId", deleteBlog);
+
+/**
+ * @swagger
+ * /blog:
+ *  get:
+ *      summary: Get one or multiple blogs depending on query parameter
+ *      tags:
+ *          - /blog
+ *      parameters:
+ *          - in: query
+ *            name: blogId
+ *            schema:
+ *              type: string
+ *              required: false
+ *              description: The id (_id) of the blog to update
+ *      response:
+ *          200:
+ *              description: Return a list of blogs or empty array in a case where blod is not found
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          properties:
+ *                              message:
+ *                                  type: string
+ *                                  description: A readable message or operatioin status
+ *                              status:
+ *                                  type: integer
+ *                                  description: An HTTP status code on operation
+ *                              blog:
+ *                                  type: array
+ *                                  items:
+ *                                      $ref: '#/components/schemas/Response'
+ */
 // get single or all blogs
 BlogRouter.get("/blog", getBlogs);
