@@ -159,6 +159,35 @@ BlogRouter.post("/blog", createBlog);
  */
 // update blog
 BlogRouter.patch("/blog/:blogId", updateBlog);
+
+/**
+ * @swagger
+ * /blog/{blogId}:
+ *  patch:
+ *      summary: Delete a blog
+ *      tags:
+ *          - /blog
+ *      parameters:
+ *          - in: path
+ *            name: blogId
+ *            schema:
+ *              type: string
+ *              required: true
+ *              description: The id (_id) of the blog to update
+ *      response:
+ *          200:
+ *              description: Blog successfully deleted
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          $ref: '#/components/schemas/Response'
+ *          400:
+ *              desctiption: An error occurres
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          $ref: '#/components/schemas/Response'
+ */
 // delete blog
 BlogRouter.delete("/blog/:blogId", deleteBlog);
 // get single or all blogs
