@@ -43,7 +43,7 @@ export const BlogRouter = Router();
  * @swagger
  * components:
  *  schemas:
- *      MustHaveInResponse:
+ *      Response:
  *          type: object
  *          required:
  *              - message
@@ -54,7 +54,7 @@ export const BlogRouter = Router();
  *                  description: The information about the performed operation
  *              status:
  *                  type: number
- *                  description: An HTTP status for the requested operation
+ *                  description: An HTTP status code for the requested operation
  *          example:
  *              message: "Some operations have been performed successfully or failed."
  *              status: 100
@@ -93,7 +93,7 @@ export const BlogRouter = Router();
  *                                  description: A readable message on operation status
  *                              status:
  *                                  type: number
- *                                  description: An HTTP status on operation
+ *                                  description: An HTTP status code on operation
  *                              blog:
  *                                  $ref: '#/components/schemas/Blog'
  *          400:
@@ -101,7 +101,7 @@ export const BlogRouter = Router();
  *              content:
  *                  application/json:
  *                      schema:
- *                          $ref: '#/components/schemas/MustHaveInResponse'
+ *                          $ref: '#/components/schemas/Response'
  *
  */
 // create blog
@@ -109,17 +109,53 @@ BlogRouter.post("/blog", createBlog);
 
 /**
  * @swagger
- * paths:
- *  /blog/{blogId}:
- *      patch:
- *          summary: Update title and detail of a blog post
- *          parameters:
- *              - in: path
- *                name: blogId
- *                schema:
- *                    type: string
- *                    required: true
- *                    description: The id (_id) of the blog to update
+ * /blog/{blogId}:
+ *  patch:
+ *      summary: Update title and detail of a blog post
+ *      tags:
+ *          - /blog
+ *      parameters:
+ *      - in: path
+ *        name: blogId
+ *        schema:
+ *          type: string
+ *          required: true
+ *          description: The id (_id) of the blog to update
+ *      requestBody:
+ *          required: true
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      type: object
+ *                      properties:
+ *                          title:
+ *                              type: string
+ *                              description: The new title for the blog
+ *                          detail:
+ *                              type: string
+ *                              description: The new description for the blog
+ *      response:
+ *          200:
+ *              description: Blog successfully updated
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          properties:
+ *                              message:
+ *                                  type: string
+ *                                  description: A readable message or operatioin status
+ *                              status:
+ *                                  type: integer
+ *                                  description: An HTTP status code on operation
+ *                              blog:
+ *                                  $ref: '#/components/schemas/Response'
+ *          400:
+ *              description: An error occurred
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          $ref: '#/components/schema/Response'
  */
 // update blog
 BlogRouter.patch("/blog/:blogId", updateBlog);
