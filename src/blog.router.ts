@@ -163,7 +163,7 @@ BlogRouter.patch("/blog/:blogId", updateBlog);
 /**
  * @swagger
  * /blog/{blogId}:
- *  patch:
+ *  delete:
  *      summary: Delete a blog
  *      tags:
  *          - /blog
