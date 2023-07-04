@@ -97,7 +97,7 @@ const swaggerOpt: swaggerJSDoc.Options = {
 const specs = swaggerJSDoc(swaggerOpt);
 app.use("/api", swaggerUI.serve, swaggerUI.setup(specs, { explorer: true }));
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 app.listen(PORT, async function () {
   try {
     // mongoose.set("strictQuery", true);
