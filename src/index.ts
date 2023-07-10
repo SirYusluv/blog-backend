@@ -49,6 +49,19 @@ export const upload = multer({
   limits: { fileSize: FILE_SIZE_LIMIT },
 });
 
+// cors
+app.use(function (req: Request, res: Response, next: NextFunction) {
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE");
+  res.setHeader(
+    "Access-Control-Allow-Origin",
+    req.headers.origin!! || "http://localhost:3000"
+  );
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+
+  if (req.method === "OPTIONS") return res.status(200).send();
+  next();
+});
+
 app.use(express.json());
 app.use(express.static(PUBLIC_DIR));
 

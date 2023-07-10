@@ -7,7 +7,7 @@ export async function createBlog(
   next: NextFunction
 ) {
   try {
-    const imageURL = req.file;
+    const imageURL = req.file?.filename;
     const { title, detail } = req.body;
 
     if (!imageURL || !title || !detail)
